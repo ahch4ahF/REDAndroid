@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="redacted.ch"
+                    android:host="redacted.sh"
                     android:pathPrefix="/user"
                     android:scheme="https"/>
             </intent-filter>
@@ -59,7 +59,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="redacted.ch"
+                    android:host="redacted.sh"
                     android:pathPrefix="/forums"
                     android:scheme="https"/>
             </intent-filter>
@@ -93,7 +93,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="redacted.ch"
+                    android:host="redacted.sh"
                     android:pathPrefix="/torrents"
                     android:scheme="https"/>
             </intent-filter>
@@ -127,7 +127,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="redacted.ch"
+                    android:host="redacted.sh"
                     android:pathPrefix="/artist"
                     android:scheme="https"/>
             </intent-filter>

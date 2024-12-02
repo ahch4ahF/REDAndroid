@@ -57,7 +57,7 @@ import ch.redacted.injection.module.ApplicationModule;
 
 public class REDApplication extends Application {
 
-	public static final String DEFAULT_SITE = "https://redacted.ch";
+	public static final String DEFAULT_SITE = "https://redacted.sh";
 //		public static final String DEFAULT_SITE = "https://pthdev.pw";
 	ApplicationComponent mApplicationComponent;
 
