@@ -35,6 +35,7 @@ jobs:
         name: Sign app APK
         id: sign_app
         with:
+          alias: github-actions
           releaseDirectory: app/build/outputs/apk/${{ steps.build.outputs.build_type }}
           signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
