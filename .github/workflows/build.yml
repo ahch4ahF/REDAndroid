@@ -44,5 +44,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Upload Signed APK
+          name: REDAndroid.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
