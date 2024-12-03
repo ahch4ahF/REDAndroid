@@ -1,8 +1,10 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
         google()
+        maven { url 'https://repo.cuba-platform.com/content/groups/work/' } // for firebase-jobdispatcher
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
@@ -11,10 +13,12 @@ buildscript {
 }
 allprojects {
     repositories {
+        mavenCentral()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://jitpack.io" }
         maven { url 'https://guardian.github.com/maven/repo-releases' }
         google()
+        maven { url 'https://repo.cuba-platform.com/content/groups/work/' } // for firebase-jobdispatcher
     }
 }
