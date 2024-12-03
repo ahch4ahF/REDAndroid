@@ -1,0 +1,47 @@
+name: Run Gradle on every push
+
+on:
+  push:
+    branches: [master]
+    tags:
+      - "*"
+
+  release:
+    types: [published]
+
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: Execute Gradle build
+        id: build
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* || "${{ github.event_name }}" == "release" ]]; then
+            echo "build_type=release" | tee -a $GITHUB_OUTPUT
+            ./gradlew assembleRelease
+          else
+            echo "build_type=debug"   | tee -a $GITHUB_OUTPUT
+            ./gradlew assembleDebug
+          fi
+
+      - uses: upup-company/apksigner-android@v1
+        name: Sign app APK
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/${{ steps.build.outputs.build_type }}
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "29.0.2" # this is what ubuntu-latest uses
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Upload Signed APK
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
