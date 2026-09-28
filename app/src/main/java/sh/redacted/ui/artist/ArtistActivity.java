@@ -29,6 +29,8 @@ import ch.redacted.data.model.Artist;
 import ch.redacted.ui.base.BaseActivity;
 import ch.redacted.ui.release.ReleaseActivity;
 import ch.redacted.util.Tags;
+import ch.redacted.util.AuthenticatedImageGetter;
+import ch.redacted.util.ImageHelper;
 
 public class ArtistActivity extends BaseActivity implements ArtistMvpView, TorrentGroupAdapter.Callback {
 
@@ -158,7 +160,7 @@ public class ArtistActivity extends BaseActivity implements ArtistMvpView, Torre
             bookmarkFab.setImageResource(R.drawable.ic_notifications_disabled_48px);
         }
 
-        artistDescription.setHtml(artist.response.body);
+        artistDescription.setHtml(ImageHelper.replaceImageLinks(artist.response.body), new AuthenticatedImageGetter(artistDescription));
 
         mArtistPresenter.loadTorrents(artist.response.torrentgroup);
 

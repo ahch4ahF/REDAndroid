@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import ch.redacted.REDApplication;
 import ch.redacted.app.R;
 import ch.redacted.data.model.Announcement;
 import ch.redacted.util.ImageHelper;
+import ch.redacted.util.AuthenticatedImageGetter;
 
 /**
  * Created by sxo on 23/12/16.
@@ -74,8 +74,8 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         if (announcement.body.length() > 25000) {
             holder.body.setText(holder.body.getContext().getString(R.string.post_too_long));
         } else {
-            holder.body.setHtml(announcement.body,
-                    new HtmlHttpImageGetter(holder.body));
+            String collapsedBody = ImageHelper.stripImages(announcement.body);
+            holder.body.setHtml(collapsedBody);
         }
 
         holder.body.setMaxLines(COLLAPSED_POST_LINES);
@@ -124,17 +124,16 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-
         private void toggleView() {
             showFullPost = !showFullPost;
             if (showFullPost) {
-                body.setLines(COLLAPSED_POST_LINES);
-                body.setHtml(fullText,
-                        new HtmlHttpImageGetter(body));
-                readMore.setText(readMore.getContext().getString(R.string.show_all));
-            } else {
-                readMore.setText(readMore.getContext().getString(R.string.show_less));
                 body.setMaxLines(Integer.MAX_VALUE);
+                body.setHtml(ImageHelper.replaceImageLinks(fullText), new AuthenticatedImageGetter(body));
+                readMore.setText(readMore.getContext().getString(R.string.show_less));
+            } else {
+                body.setLines(COLLAPSED_POST_LINES);
+                body.setHtml(ImageHelper.stripImages(fullText));
+                readMore.setText(readMore.getContext().getString(R.string.show_all));
             }
         }
     }

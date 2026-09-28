@@ -14,13 +14,16 @@ import ch.redacted.app.R;
 public class ImageHelper {
 
 	public static String replaceImageLinks(String body) {
-		//should remove from class= to end of onclick
-		//this is a gross hack that needs to happen because the site is swapping these values because img is some site scrubbed image url
-		String temp = body.replaceAll("src=\".*?\"", "");
-		temp = temp.replaceAll("onclick=\".*?\"", "");
-		temp = temp.replaceAll("class=\".*?\"", "");
+		String temp = body;
 
-		return temp.replace("alt=\"", "src=\"");
+		temp = temp.replaceAll("onclick=\"[^\"]*\"", "");
+		temp = temp.replaceAll("class=\"[^\"]*\"", "");
+
+		return temp;
+	}
+
+	public static String stripImages(String body) {
+		return body.replaceAll("<img[^>]+>", "");
 	}
 
     public static ImageView getRippy(SwipeRefreshLayout swipeRefreshContainer) {

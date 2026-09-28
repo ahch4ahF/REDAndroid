@@ -28,13 +28,14 @@ import ch.redacted.ui.base.BaseActivity;
 import ch.redacted.ui.release.ReleaseActivity;
 import ch.redacted.ui.reply.ReplyActivity;
 import com.bumptech.glide.Glide;
+import ch.redacted.util.ImageHelper;
+import ch.redacted.util.AuthenticatedImageGetter;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import javax.inject.Inject;
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import static android.view.View.GONE;
@@ -261,7 +262,8 @@ public class ProfileActivity extends BaseActivity
 	}
 
 	@Override public void showUserDescription(String description) {
-		userProfileText.setHtml(description, new HtmlHttpImageGetter(userProfileText));
+		description = ImageHelper.replaceImageLinks(description);
+		userProfileText.setHtml(description, new AuthenticatedImageGetter(userProfileText));
 	}
 
 	@Override public void showUserDescriptionEmpty() {

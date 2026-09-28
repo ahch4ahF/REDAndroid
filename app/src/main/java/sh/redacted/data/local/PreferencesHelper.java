@@ -34,6 +34,9 @@ import ch.redacted.injection.ApplicationContext;
 
 	public static final String PREF_API_KEY = "pref_api_key";
 
+	public static final String PREF_IMGAUTH_H = "pref_imgauth_h";
+	public static final String PREF_IMGAUTH_E = "pref_imgauth_e";
+
 	private final SharedPreferences mPref;
 	private final SharedPreferences mCookiePreference;
 	public static final String PREF_PYWA_PASSWORD_KEY = "pref_pywa_password";
@@ -179,5 +182,21 @@ import ch.redacted.injection.ApplicationContext;
 
 	public void setApiKey(String key) {
 		mPref.edit().putString(PREF_API_KEY, key).apply();
+	}
+
+	public void setImgAuthH(String h) {
+		mPref.edit().putString(PREF_IMGAUTH_H, h).apply();
+	}
+
+	public String getImgAuthH() {
+		return mPref.getString(PREF_IMGAUTH_H, null);
+	}
+
+	public void setImgAuthE(long e) {
+		mPref.edit().putLong(PREF_IMGAUTH_E, e).apply();
+	}
+
+	public long getImgAuthE() {
+		return mPref.getLong(PREF_IMGAUTH_E, 0);
 	}
 }

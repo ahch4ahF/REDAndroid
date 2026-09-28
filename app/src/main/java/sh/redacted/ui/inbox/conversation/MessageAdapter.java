@@ -24,6 +24,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.redacted.app.R;
 import ch.redacted.data.model.Conversation;
+import ch.redacted.util.AuthenticatedImageGetter;
+import ch.redacted.util.ImageHelper;
 import ch.redacted.util.Emoji;
 
 /**
@@ -54,7 +56,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         long now = System.currentTimeMillis() - offsetFromUtc;
 
         Conversation.Messages messages = mMessages.get(position);
-        holder.body.setHtml(Emoji.convertEmojis(messages.body));
+        holder.body.setHtml(ImageHelper.replaceImageLinks(Emoji.convertEmojis(messages.body)), new AuthenticatedImageGetter(holder.body));
         holder.sender.setHtml(messages.senderName);
         holder.date.setText(DateUtils.getRelativeTimeSpanString(messages.sentDate.getTime(), now, DateUtils.FORMAT_ABBREV_ALL));
     }

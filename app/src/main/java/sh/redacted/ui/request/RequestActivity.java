@@ -21,6 +21,8 @@ import ch.redacted.ui.base.BaseActivity;
 import ch.redacted.util.Calculator;
 import ch.redacted.util.ReleaseTypes;
 import ch.redacted.util.Tags;
+import ch.redacted.util.AuthenticatedImageGetter;
+import ch.redacted.util.ImageHelper;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 public class RequestActivity extends BaseActivity implements RequestMvpView {
@@ -129,7 +131,7 @@ public class RequestActivity extends BaseActivity implements RequestMvpView {
             bookmarkFab.setImageResource(R.drawable.ic_bookmark_border_24dp);
         }
 
-        releaseDescription.setHtml(request.response.description);
+        releaseDescription.setHtml(ImageHelper.replaceImageLinks(request.response.description), new AuthenticatedImageGetter(releaseDescription));
 
         mToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 

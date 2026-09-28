@@ -18,7 +18,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import ch.redacted.REDApplication;
 import ch.redacted.util.Emoji;
 import ch.redacted.util.ImageHelper;
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import ch.redacted.util.AuthenticatedImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
@@ -102,11 +102,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ForumViewHolde
                     }
                 });
             }
-            holder.postBody.setHtml(body, new HtmlHttpImageGetter(holder.postBody));
+            holder.postBody.setHtml(body, new AuthenticatedImageGetter(holder.postBody));
         }
         else {
             holder.avatar.setVisibility(View.GONE);
-            holder.postBody.setHtml(body);
+            holder.postBody.setHtml(ImageHelper.stripImages(body));
         }
     }
 
@@ -171,12 +171,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ForumViewHolde
         public void setHtmlBody(String htmlBody) {
             this.htmlBody = htmlBody;
         }
-
         public void setPostId(int postId) {
             this.postId = postId;
         }
     }
-
     interface Callback {
         void onQuoteClicked(String bbBody, String quoteText, String quotedUser, int postId);
 

@@ -25,6 +25,8 @@ import butterknife.OnClick;
 import ch.redacted.app.R;
 import ch.redacted.data.model.TorrentComments;
 import ch.redacted.data.model.TorrentGroup;
+import ch.redacted.util.AuthenticatedImageGetter;
+import ch.redacted.util.ImageHelper;
 import ch.redacted.util.Calculator;
 
 /**
@@ -49,7 +51,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         TorrentComments.Comments comment = mComments.get(position);
         CommentViewHolder holder = (CommentViewHolder) viewHolder;
-        holder.body.setHtml(comment.body);
+        holder.body.setHtml(ImageHelper.replaceImageLinks(comment.body), new AuthenticatedImageGetter(holder.body));
         holder.author.setHtml(comment.userinfo.authorName);
         holder.postTime.setText(DateUtils.getRelativeTimeSpanString(comment.addedTime.getTime(), now, DateUtils.FORMAT_ABBREV_ALL));
     }

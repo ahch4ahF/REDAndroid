@@ -12,6 +12,7 @@ import ch.redacted.REDApplication;
 import ch.redacted.app.BuildConfig;
 import ch.redacted.data.model.Announcement;
 import ch.redacted.data.model.Artist;
+import ch.redacted.data.model.ImgAuth;
 import ch.redacted.data.model.Collage;
 import ch.redacted.data.model.CollageSearch;
 import ch.redacted.data.model.Conversation;
@@ -144,6 +145,9 @@ public interface ApiService {
 
     @GET("ajax.php?action=inbox&type=viewconv")
     Single<Conversation> conversation(@Query("id") int id);
+
+    @GET("ajax.php?action=imgauth")
+    Single<ImgAuth> imgAuth();
 
     @FormUrlEncoded
     @POST("inbox.php")

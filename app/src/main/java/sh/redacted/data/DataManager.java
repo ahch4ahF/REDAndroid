@@ -1,6 +1,7 @@
 package ch.redacted.data;
 
 import android.content.Context;
+import android.util.Log;
 import android.os.Environment;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import javax.inject.Singleton;
 import ch.redacted.data.local.PreferencesHelper;
 import ch.redacted.data.model.Announcement;
 import ch.redacted.data.model.Artist;
+import ch.redacted.data.model.ImgAuth;
 import ch.redacted.data.model.Collage;
 import ch.redacted.data.model.CollageSearch;
 import ch.redacted.data.model.Conversation;
@@ -96,13 +98,30 @@ public class DataManager {
     }
 
     public Single<Index> loadIndex() {
-        return mApiService.index().doOnSuccess(new Consumer<Index>() {
-            @Override public void accept(Index index) throws Exception {
-                mPreferencesHelper.setUserId(index.response.id);
-                mPreferencesHelper.setAuth(index.response.authkey);
-                mPreferencesHelper.setPass(index.response.passkey);
-            }
-        });
+        return mApiService.index()
+                .doOnSuccess(index -> {
+                    mPreferencesHelper.setUserId(index.response.id);
+                    mPreferencesHelper.setAuth(index.response.authkey);
+                    mPreferencesHelper.setPass(index.response.passkey);
+                })
+                .flatMap(index ->
+                    fetchAndStoreImgAuth()
+                        .toCompletable()
+                        .onErrorComplete()
+                        .andThen(Single.just(index))
+                );
+    }
+
+    private Single<ImgAuth> fetchAndStoreImgAuth() {
+        return mApiService.imgAuth()
+                .doOnSuccess(imgAuth -> {
+                    if ("success".equals(imgAuth.status)) {
+                        mPreferencesHelper.setImgAuthH(imgAuth.response.h);
+                        mPreferencesHelper.setImgAuthE(imgAuth.response.e);
+                    } else {
+                        Log.w("ImgAuth", "imgauth returned status: " + imgAuth.status);
+                    }
+                });
     }
 
     public Single<Index> validateCookie() {

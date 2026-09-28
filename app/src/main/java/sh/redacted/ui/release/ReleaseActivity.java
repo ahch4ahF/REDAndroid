@@ -41,6 +41,8 @@ import io.reactivex.functions.Consumer;
 import ch.redacted.REDApplication;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
+import ch.redacted.util.AuthenticatedImageGetter;
+import ch.redacted.util.ImageHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -262,7 +264,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseMvpView, Tor
             bookmarkFab.setImageResource(R.drawable.ic_bookmark_border_24dp);
         }
 
-        releaseDescription.setHtml(torrentGroup.response.group.wikiBody);
+        releaseDescription.setHtml(ImageHelper.replaceImageLinks(torrentGroup.response.group.wikiBody), new AuthenticatedImageGetter(releaseDescription));
 
         mToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
