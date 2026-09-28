@@ -211,6 +211,8 @@ public class ReleaseActivity extends BaseActivity implements ReleaseMvpView, Tor
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(file.hashCode(), mBuilder.build());
+
+        Snackbar.make(findViewById(android.R.id.content).getRootView(), "Download complete", Snackbar.LENGTH_LONG).show();
     }
 
     @Override

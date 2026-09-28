@@ -131,8 +131,8 @@ public interface ApiService {
     @GET("ajax.php?action=collage")
     Single<Collage> collage(@Query("id") int id);
 
-    @GET("torrents.php?action=download")
-    Single<retrofit2.Response<ResponseBody>> file(@Query("id") int id, @Query("authkey") String auth, @Query("torrent_pass") String pass);
+    @GET("ajax.php?action=download")
+    Single<retrofit2.Response<ResponseBody>> file(@Query("id") int id);
 
     @GET("ajax.php?action=user_recents")
     Single<Recents> recents(@Query("userid") int id, @Query("authkey") String auth, @Query("limit") int limit);

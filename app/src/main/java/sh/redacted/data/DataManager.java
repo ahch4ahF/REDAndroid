@@ -241,7 +241,7 @@ public class DataManager {
         }
     
         final String finalPath = path;
-        return mApiService.file(id, mPreferencesHelper.getAuth(), mPreferencesHelper.getPass())
+        return mApiService.file(id)
                 .flatMap(new Function<Response<ResponseBody>, SingleSource<? extends File>>() {
                     @Override
                     public SingleSource<? extends File> apply(Response<ResponseBody> response) throws Exception {
