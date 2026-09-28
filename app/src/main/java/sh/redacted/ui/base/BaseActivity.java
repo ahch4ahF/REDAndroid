@@ -1,5 +1,6 @@
 package ch.redacted.ui.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -51,6 +52,14 @@ public class BaseActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(KEY_ACTIVITY_ID, mActivityId);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!isChangingConfigurations() && !"ch.redacted.ui.login.LoginActivity".equals(getClass().getName())) {
+            REDApplication.get(this).getComponent().preferencesHelper().setLastActivityIntent(getIntent().toUri(Intent.URI_INTENT_SCHEME));
+        }
     }
 
     @Override

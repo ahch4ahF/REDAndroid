@@ -178,7 +178,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseMvpView, Tor
 
     @Override
     public void showError(String message) {
-        Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -214,18 +214,18 @@ public class ReleaseActivity extends BaseActivity implements ReleaseMvpView, Tor
                         .setContentText(file.getName());
 
         Intent chooser = Intent.createChooser(intent, "Open with");
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, chooser, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, chooser, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         mBuilder.setOngoing(false);
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(file.hashCode(), mBuilder.build());
 
-        Snackbar.make(findViewById(android.R.id.content).getRootView(), "Download complete", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), "Download complete", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void showSendToServerComplete() {
-        Snackbar.make(findViewById(android.R.id.content).getRootView(), "Sent to Server successfully", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), "Sent to Server successfully", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -310,7 +310,7 @@ public class ReleaseActivity extends BaseActivity implements ReleaseMvpView, Tor
     }
 
     @Override public void showMessage(String message) {
-        Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

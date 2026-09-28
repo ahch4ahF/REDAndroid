@@ -91,12 +91,39 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
 	/***** MVP View methods implementation *****/
 
 	@Override public void showLoginSuccess() {
-		Intent result = new Intent();
-		setResult(Activity.RESULT_OK, result);
+		setResult(Activity.RESULT_OK, new Intent());
 		LoginActivity.this.finish();
 
-		Intent intent = new Intent(LoginActivity.this, AnnouncementActivity.class);
-		startActivity(intent);
+		Intent intent = null;
+		String savedUri = mLoginPresenter.getLastActivityIntent();
+		if (savedUri != null) {
+			try {
+				intent = Intent.parseUri(savedUri, Intent.URI_INTENT_SCHEME);
+			} catch (Exception e) {
+				intent = null;
+			}
+			if (intent != null && intent.getComponent() != null
+					&& LoginActivity.class.getName().equals(intent.getComponent().getClassName())) {
+				intent = null;
+			}
+		}
+
+		if (intent == null || intent.getComponent() == null) {
+			startActivity(new Intent(LoginActivity.this, AnnouncementActivity.class));
+			return;
+		}
+
+		try {
+			Class<?> cls = Class.forName(intent.getComponent().getClassName());
+			if (ch.redacted.ui.base.BaseDrawerActivity.class.isAssignableFrom(cls)) {
+				startActivity(intent);
+			} else {
+				Intent drawerIntent = new Intent(LoginActivity.this, AnnouncementActivity.class);
+				startActivities(new Intent[]{drawerIntent, intent});
+			}
+		} catch (ClassNotFoundException e) {
+			startActivity(new Intent(LoginActivity.this, AnnouncementActivity.class));
+		}
 	}
 
 	@Override public void showCookieExpired() {

@@ -116,4 +116,8 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                     }
                 }));
     }
+
+    public String getLastActivityIntent() {
+        return mPreferenceHelper.getLastActivityIntent();
+    }
 }

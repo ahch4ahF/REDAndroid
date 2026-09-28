@@ -37,6 +37,8 @@ import ch.redacted.injection.ApplicationContext;
 	public static final String PREF_IMGAUTH_H = "pref_imgauth_h";
 	public static final String PREF_IMGAUTH_E = "pref_imgauth_e";
 
+	public static final String PREF_LAST_ACTIVITY_INTENT = "pref_last_activity_intent";
+
 	private final SharedPreferences mPref;
 	private final SharedPreferences mCookiePreference;
 	public static final String PREF_PYWA_PASSWORD_KEY = "pref_pywa_password";
@@ -198,5 +200,13 @@ import ch.redacted.injection.ApplicationContext;
 
 	public long getImgAuthE() {
 		return mPref.getLong(PREF_IMGAUTH_E, 0);
+	}
+
+	public void setLastActivityIntent(String uri) {
+		mPref.edit().putString(PREF_LAST_ACTIVITY_INTENT, uri).apply();
+	}
+
+	public String getLastActivityIntent() {
+		return mPref.getString(PREF_LAST_ACTIVITY_INTENT, null);
 	}
 }
