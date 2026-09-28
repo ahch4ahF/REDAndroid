@@ -1,6 +1,7 @@
 package ch.redacted.ui.release;
 
 import android.Manifest;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -193,23 +194,30 @@ public class ReleaseActivity extends BaseActivity implements ReleaseMvpView, Tor
     @Override
     public void showDownloadComplete(File file) {
 
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("downloads", "Downloads", NotificationManager.IMPORTANCE_DEFAULT);
+            mNotificationManager.createNotificationChannel(channel);
+        }
+
         Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setDataAndType(uri, "application/x-bittorrent");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, "downloads")
                         .setSmallIcon(R.drawable.ic_rippy)
                         .setContentTitle("Download complete")
                         .setContentText(file.getName());
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Intent chooser = Intent.createChooser(intent, "Open with");
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, chooser, PendingIntent.FLAG_CANCEL_CURRENT);
         mBuilder.setOngoing(false);
 
         mBuilder.setContentIntent(contentIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(file.hashCode(), mBuilder.build());
 
         Snackbar.make(findViewById(android.R.id.content).getRootView(), "Download complete", Snackbar.LENGTH_LONG).show();
