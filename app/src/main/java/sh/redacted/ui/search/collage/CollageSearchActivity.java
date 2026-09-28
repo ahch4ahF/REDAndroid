@@ -99,6 +99,10 @@ public class CollageSearchActivity extends BaseDrawerActivity implements Collage
             mSearchPresenter.loadCollages(searchTerm.getText().toString());
         });
 
+        searchTerm.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(searchTerm, InputMethodManager.SHOW_IMPLICIT);
+
         super.onCreateDrawer();
 
     }

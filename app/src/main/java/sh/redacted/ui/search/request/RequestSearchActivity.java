@@ -99,6 +99,10 @@ public class RequestSearchActivity extends BaseDrawerActivity implements Request
             }
         });
 
+        searchTerm.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(searchTerm, InputMethodManager.SHOW_IMPLICIT);
+
         super.onCreateDrawer();
     }
 

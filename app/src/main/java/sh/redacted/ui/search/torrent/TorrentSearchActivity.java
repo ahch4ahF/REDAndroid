@@ -96,6 +96,10 @@ public class TorrentSearchActivity extends BaseDrawerActivity implements Torrent
             }
         });
 
+        searchTerm.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(searchTerm, InputMethodManager.SHOW_IMPLICIT);
+
         super.onCreateDrawer();
     }
 
