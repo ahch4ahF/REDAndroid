@@ -79,6 +79,17 @@ public class BaseDrawerActivity extends BaseActivity implements DrawerMvpView {
 
     protected void onCreateDrawer() {
         ButterKnife.bind(this);
+
+        String title = getString(R.string.app_name);
+        String className = this.getClass().getSimpleName();
+        if (className.contains("Search")) {
+            String type = className.replace("SearchActivity", "").replace("Activity", "");
+            title = getString(R.string.app_name) + " - " + type;
+        }
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+
         mDrawerPresenter.attachView(this);
         mDrawerPresenter.setupDrawer();
         mDrawerPresenter.loadProfile(this, true);
