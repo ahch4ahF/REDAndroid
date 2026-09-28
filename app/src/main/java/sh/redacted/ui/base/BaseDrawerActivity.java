@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -69,6 +70,7 @@ public class BaseDrawerActivity extends BaseActivity implements DrawerMvpView {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private Intent pendingIntent;
+    protected static String savedSearchQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,22 @@ public class BaseDrawerActivity extends BaseActivity implements DrawerMvpView {
         mDrawerPresenter.attachView(this);
         mDrawerPresenter.setupDrawer();
         mDrawerPresenter.loadProfile(this, true);
+
+        EditText searchTerm = (EditText) findViewById(R.id.search_term);
+        if (searchTerm != null) {
+            if (!savedSearchQuery.isEmpty()) {
+                searchTerm.setText(savedSearchQuery);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EditText searchTerm = (EditText) findViewById(R.id.search_term);
+        if (searchTerm != null) {
+            savedSearchQuery = searchTerm.getText().toString();
+        }
     }
 
     @Override public void showError() {
